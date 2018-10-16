@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Edit: 2018-7-9 旧笔记，暂存，怀念!">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="瀑布流">
+<meta property="og:url" content="http://yoursite.com/2015/08/04/瀑布流/index.html">
+<meta property="og:site_name" content="Cupid">
+<meta property="og:description" content="Edit: 2018-7-9 旧笔记，暂存，怀念!">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-10-16T13:18:14.752Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="瀑布流">
+<meta name="twitter:description" content="Edit: 2018-7-9 旧笔记，暂存，怀念!">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/08/04/瀑布流/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>瀑布流 | Cupid</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Cupid</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">--AAAma</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/08/04/瀑布流/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zQiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/././././images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cupid">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">瀑布流
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2015-08-04 11:34:14" itemprop="dateCreated datePublished" datetime="2015-08-04T11:34:14+08:00">2015-08-04</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-16 21:18:14" itemprop="dateModified" datetime="2018-10-16T21:18:14+08:00">2018-10-16</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/swift/" itemprop="url" rel="index"><span itemprop="name">swift</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li>Edit: 2018-7-9</li>
+<li>旧笔记，暂存，怀念!<a id="more"></a>
+</li>
+</ul>
+<p><strong>1.新建一个 waterflow 继承至 UIScrollView，创建一个 WaterflowViewCell继承至 UIView</strong></p>
+<font color="purple" size="3">WaterflowViewCell中，需创建 identifier 属性，用于 cell 复用</font>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">class WaterflowViewCell: UIView &#123;</span><br><span class="line">    var identifier: String?</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<font color="purple" size="3">在waterflow中…</font><br>a).声明一个可变数组<code>cellFrames</code>，用于存放所有 cell 的 frame;<br>b).声明一个可变字典<code>displayingCells</code>,用于存放正在显示的 cell, 字典的 key 为 index，value 为 cell 对象；<br>c).声明一个可变的集合<code>reusableCells</code>，用于存放所有离开屏幕的 cell。<br><em><font color="purple">因为不需要公开，所有设置为私有</font></em><br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fileprivate lazy var cellFrames = NSMutableArray()</span><br><span class="line">fileprivate lazy var displayingCells = NSMutableDictionary()</span><br><span class="line">fileprivate lazy var reusableCells = NSMutableSet()</span><br></pre></td></tr></table></figure><br><br><strong>2.创建一个遮罩层，用于当用户点击cell 之后，展示点击效果</strong><br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fileprivate lazy var matteView: UIView = &#123;</span><br><span class="line">   var view = UIView()</span><br><span class="line">   view.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.1)</span><br><span class="line">   return view</span><br><span class="line">&#125;()</span><br></pre></td></tr></table></figure><br><br><strong>3.可以考虑模仿 tableView，设置相应的数据源方法和代理方法</strong><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;数据源方法和代理方法此处分别设置了三个，考虑的项目的实际情况，暂时设置这几个，或者考虑利用 collection 来实现瀑布流，<font color="purple">下篇博客或者考虑利用 collection 来实现瀑布流，所有的动作可以使用原生提供的 API 进行开发</font>。<br><br>a).这里的<code>WaterflowMarginType</code>是相应的间隔类型的枚举类，为什么会使用<code>@objc</code>？因为此枚举在代理方法中被用作参数传递了，所有需要在枚举开头加上<code>@objc</code>，至于数据源方法和代理方法也加上了<code>@objc</code>，目的在于设置协议的 optional 属性。<br>b).数据源中的第三个方法<code>numberOfColumnsInWaterflow</code>要求返回所要展示的 cell 的列数，当然不实现此方法的话默认会展示三列。<br>c).代理方法中：<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>heightAtIndex</code>方法要求返回 cell 的高度，默认是44；<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>didSelectAtIndex</code>方法是 cell 的点击回调；<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>marginForType</code>方法返回 cell 间间隙的宽度，默认是1。<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">@objc enum WaterflowMarginType: Int &#123;</span><br><span class="line">    </span><br><span class="line">    case top</span><br><span class="line">    case bottom</span><br><span class="line">    case left</span><br><span class="line">    case right</span><br><span class="line">    case column</span><br><span class="line">    case row</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@objc protocol WaterflowDataSource: NSObjectProtocol &#123;</span><br><span class="line">    </span><br><span class="line">    func numberOfCellsInWaterflow(waterflow: WaterflowView) -&gt; Int</span><br><span class="line">    </span><br><span class="line">    func waterflow(waterflow: WaterflowView, cellAtIndex index: Int) -&gt; WaterflowViewCell</span><br><span class="line">    </span><br><span class="line">    @objc optional func numberOfColumnsInWaterflow(waterflow: WaterflowView) -&gt; Int</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@objc protocol WaterflowDelegate: NSObjectProtocol &#123;</span><br><span class="line">    @objc optional func waterflow(waterflow: WaterflowView, heightAtIndex index: Int) -&gt; CGFloat</span><br><span class="line">    </span><br><span class="line">    @objc optional func waterflow(waterflow: WaterflowView, didSelectAtIndex index: Int)</span><br><span class="line">    </span><br><span class="line">    @objc optional func waterflow(waterflow: WaterflowView, marginForType type: WaterflowMarginType) -&gt; CGFloat</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br><strong>4.以下是waterflowView 类的代码部分，为了代码的可读性和整洁性，其余 public 方法和 private 方法将在 waterflowView 的类扩展中实现</strong><br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;对于 cell 的穿件以及属性的计算将会在<code>willMoveToSuperview</code>和<code>layoutSubviews</code>中完成，<code>willMoveToSuperview</code>什么时候会被触发？<br><br><em>在此拓展知识，用于笔记查阅也用于提醒铭记</em><br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-(id)initWithFrame:(CGRect)frame - UIView的指定初始化方法; 总是发送给UIView去初始化, 除非是从一个nib文件中加载的;</span><br><span class="line">-(id)initWithCoder:(NSCoder *)coder - 从nib文件中加载的时候发送此消息给UIView;</span><br><span class="line">-(void)awakeFromNib - 在所有的nib中的对象初始化和连接后将发送此消息; 只适用于从nib加载对象; 如要重写，其中还必须调用父类的awakeFromNib;</span><br><span class="line">-(void)willMoveToSuperview:(UIView *)newSuperview - 在一个子视图将要被添加到另一个视图的时候发送此消息;</span><br><span class="line">-(void)willMoveToWindow:(UIWindow *)newWindow - 在一个视图（或者它的超视图）将要被添加到window的时候发送;</span><br><span class="line">-(void)didMoveToSuperview - 把一个视图插入到视图层级之后发送此消息;</span><br><span class="line">-(void)didMoveToWindow - 当视图获得它的window属性集的时候发送此消息.</span><br></pre></td></tr></table></figure><br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">class WaterflowView: UIScrollView &#123;</span><br><span class="line"></span><br><span class="line">    // delegate</span><br><span class="line">    var dataSource: WaterflowDataSource?</span><br><span class="line">    var wfDelegate: WaterflowDelegate?</span><br><span class="line">    </span><br><span class="line">    fileprivate lazy var cellFrames = NSMutableArray()</span><br><span class="line">    fileprivate lazy var displayingCells = NSMutableDictionary()</span><br><span class="line">    fileprivate lazy var reusableCells = NSMutableSet()</span><br><span class="line">    </span><br><span class="line">    //  默认值</span><br><span class="line">    fileprivate let WaterflowDefaultCellH: CGFloat = 44</span><br><span class="line">    fileprivate let WaterflowDefaultMargin: CGFloat = 1</span><br><span class="line">    fileprivate let WaterflowDefaultNumberOfColumns: Int = 3</span><br><span class="line">    </span><br><span class="line">    // 遮罩层</span><br><span class="line">    fileprivate lazy var matteView: UIView = &#123;</span><br><span class="line">        var view = UIView()</span><br><span class="line">        view.backgroundColor = UIColor.black.withAlphaComponent(0.1)</span><br><span class="line">        return view</span><br><span class="line">    &#125;()</span><br><span class="line">    </span><br><span class="line">    // 用于记录 cell</span><br><span class="line">    fileprivate var cTupe: (NSNumber?, WaterflowViewCell?)</span><br><span class="line">    </span><br><span class="line">    override func willMove(toSuperview newSuperview: UIView?) &#123;</span><br><span class="line">        reloadData()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br><strong>5. waterflowView 中 private 方法的类扩展</strong><br>a).<code>isInScreen</code>方法用于判断 cell 的 frame 是否在屏幕中，这里只考虑纵向。<br>b).<code>marginForType</code>获取 cell 间的间隙大小，<font color="purple">这里为什么不用respondsToSelector判断代理方法是否被实现？主要原因在于<code>wfDelegate</code>或者是<code>waterflow</code>后面的<code>?</code>，如果<code>wfDelegate</code>没有被代理或者<code>waterflow</code>没有被实现，则会调用<code>??</code>后面的<code>WaterflowDefaultMargin</code>，有点类似于三目运算有没有？其他代理方法也是这个原理。</font>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">// MARK: - private</span><br><span class="line">extension WaterflowView &#123;</span><br><span class="line">    fileprivate func isInScreen(frame: CGRect) -&gt; Bool &#123;</span><br><span class="line">        return (frame.maxY &gt; contentOffset.y) &amp;&amp;</span><br><span class="line">            (frame.maxY &lt; contentOffset.y + bounds.height)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    fileprivate func marginForType(type: WaterflowMarginType) -&gt; CGFloat &#123;</span><br><span class="line"></span><br><span class="line">        return wfDelegate?.waterflow?(waterflow: self, marginForType: type) ?? WaterflowDefaultMargin</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    fileprivate func numberOfColumns() -&gt; Int &#123;</span><br><span class="line">        return dataSource?.numberOfColumnsInWaterflow?(waterflow: self) ?? WaterflowDefaultNumberOfColumns</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    fileprivate func heightAtIndex(index: Int) -&gt; CGFloat &#123;</span><br><span class="line"></span><br><span class="line">        return wfDelegate?.waterflow?(waterflow: self, heightAtIndex: index) ?? WaterflowDefaultCellH</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>6. waterflowView 中 public 方法的类扩展</strong></p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>cellWidth</code>方法可以获取到 cell 的宽度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">func cellWidth() -&gt; CGFloat &#123;</span><br><span class="line">   let columns = numberOfColumns()</span><br><span class="line">   let leftM = marginForType(type: .left)</span><br><span class="line">   let rightM = marginForType(type: .right)</span><br><span class="line">   let columnM = marginForType(type: .column)</span><br><span class="line">   </span><br><span class="line">   return (bounds.width - leftM - rightM - (CGFloat(columns) - 1) * columnM) / CGFloat(columns)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>reloadData</code>方法代码比较长，具体看注释就可以了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">func reloadData() &#123;</span><br><span class="line">   /*!</span><br><span class="line">    displayingCells为当前屏幕显示的 cell，是一个字典，</span><br><span class="line">    因此通过 allValues 可获取到字典中所有的 cell 对象，</span><br><span class="line">    forEach方法属于 for 循环的特殊用法（在forEach闭包中，</span><br><span class="line">    $0表示 字典中的 value，当然也可用闭包通用形式中 &#123;value in method&#125; 来编写），</span><br><span class="line">    这里需要移除所有的 cell。</span><br><span class="line">    */</span><br><span class="line">   displayingCells.allValues.forEach &#123;</span><br><span class="line">       ($0 as AnyObject).removeFromSuperview()</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   // 清空数组、字典、集合</span><br><span class="line">   displayingCells.removeAllObjects()</span><br><span class="line">   cellFrames.removeAllObjects()</span><br><span class="line">   reusableCells.removeAllObjects()</span><br><span class="line">   </span><br><span class="line">   // 获取 cell 的总数</span><br><span class="line">   let cells = dataSource?.numberOfCellsInWaterflow(waterflow: self)</span><br><span class="line">   </span><br><span class="line">   // waterflow 的列数</span><br><span class="line">   let columns = numberOfColumns()</span><br><span class="line">   </span><br><span class="line">   // cell 间的间隙</span><br><span class="line">   let topM = marginForType(type: .top)</span><br><span class="line">   let bottomM = marginForType(type: .bottom)</span><br><span class="line">   let leftM = marginForType(type: .left)</span><br><span class="line">   let columnM = marginForType(type: .column)</span><br><span class="line">   let rowM = marginForType(type: .row)</span><br><span class="line">   </span><br><span class="line">   let cellW = cellWidth()</span><br><span class="line">   </span><br><span class="line">   // 创建一个空的数组，大小为columns</span><br><span class="line">   var maxYOfColumns: Array&lt;CGFloat&gt; = Array(repeating: 0.0, count: columns)</span><br><span class="line">   // 循环初始化所有列的最大 y 值，瀑布流中每一行的 cell 所在位置是上一行中 y 值最小的 cell</span><br><span class="line">   for i in 0..&lt;columns &#123;</span><br><span class="line">       maxYOfColumns[i] = 0.0</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   // cells == nil return</span><br><span class="line">   guard let _cells = cells else &#123;</span><br><span class="line">       return</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   for i in 0..&lt;_cells &#123;</span><br><span class="line">       // 找出 y 值最小的 cell</span><br><span class="line">       var cellColumn = 0</span><br><span class="line">       var maxYOfCellColumn = maxYOfColumns[cellColumn]</span><br><span class="line">       for j in 1..&lt;columns &#123;</span><br><span class="line">           if maxYOfColumns[j] &lt; maxYOfCellColumn &#123;</span><br><span class="line">               cellColumn = j</span><br><span class="line">               maxYOfCellColumn = maxYOfColumns[j]</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       </span><br><span class="line">       let cellH = heightAtIndex(index: i)</span><br><span class="line">       </span><br><span class="line">       let cellX: CGFloat = leftM + CGFloat(cellColumn) * (cellW + columnM)</span><br><span class="line">       var cellY: CGFloat = 0.0</span><br><span class="line">       </span><br><span class="line">       if maxYOfCellColumn == 0.0 &#123;</span><br><span class="line">           cellY = topM</span><br><span class="line">       &#125; else &#123;</span><br><span class="line">           cellY = maxYOfCellColumn + rowM</span><br><span class="line">       &#125;</span><br><span class="line">       </span><br><span class="line">       // 把 cell 的 frame 添加到 cellFrame 数组中，并记录当前列的最大 y 值</span><br><span class="line">       let cellFrame = CGRect(x: cellX, y: cellY, width: cellW, height: cellH)</span><br><span class="line">       cellFrames.add(NSValue(cgRect: cellFrame))</span><br><span class="line">       maxYOfColumns[cellColumn] = cellFrame.maxY</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   var contentH = maxYOfColumns[0]</span><br><span class="line">   for j in 0..&lt;columns &#123;</span><br><span class="line">       if maxYOfColumns[j] &gt; contentH &#123;</span><br><span class="line">           contentH = maxYOfColumns[j]</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   contentH += bottomM</span><br><span class="line">   // 设置 scrollView 的 contentSize</span><br><span class="line">   contentSize = CGSize(width: 0, height: contentH)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>layoutSubviews</code>每次滚动屏幕时都会触发</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">override func layoutSubviews() &#123;</span><br><span class="line">   super.layoutSubviews()</span><br><span class="line">   </span><br><span class="line">   // 索要对应位置的 cell</span><br><span class="line">   let cells = cellFrames.count</span><br><span class="line">   for i in 0..&lt;cells &#123;</span><br><span class="line">       // 取出 i index 中的 frame</span><br><span class="line">       let cellFrame = (cellFrames[i] as AnyObject).cgRectValue</span><br><span class="line">       // 优先从字典中取出 cell</span><br><span class="line">       var cell: WaterflowViewCell? = displayingCells[i] as? WaterflowViewCell</span><br><span class="line">       </span><br><span class="line">       // 判断对应的 frame 在不在屏幕上</span><br><span class="line">       if isInScreen(frame: cellFrame!) &#123;</span><br><span class="line">           </span><br><span class="line">           // 如果 frame 在屏幕上，但是 cell 并没有被创建，</span><br><span class="line">           // 则创建 cell，并且存放进 displayingCells字典中</span><br><span class="line">           guard cell != nil else &#123;</span><br><span class="line">               cell = dataSource?.waterflow(waterflow: self, cellAtIndex: i)</span><br><span class="line">               cell!.frame = cellFrame!</span><br><span class="line">               addSubview(cell!)</span><br><span class="line">               displayingCells[i] = cell</span><br><span class="line">               </span><br><span class="line">               continue</span><br><span class="line">           &#125;</span><br><span class="line">           </span><br><span class="line">           continue</span><br><span class="line">           </span><br><span class="line">       &#125; else &#123;</span><br><span class="line">           </span><br><span class="line">           // 如果不在，则把 cell 从当前屏幕中移除，并添加到缓存中</span><br><span class="line">           guard let cell = cell else &#123;</span><br><span class="line">               continue</span><br><span class="line">           &#125;</span><br><span class="line">           </span><br><span class="line">           cell.removeFromSuperview()</span><br><span class="line">           displayingCells.removeObject(forKey: i)</span><br><span class="line">           reusableCells.add(cell)</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>dequeueReusableCellWithIdentifier</code>cell 重用，更加 cell 的 id 查找缓存中是否有已创建的 cell，如果有则获取这个 cell 返回并从缓存中移除。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">func dequeueReusableCellWithIdentifier(identifier: String) -&gt; AnyObject? &#123;</span><br><span class="line">   var reusableCell: WaterflowViewCell?</span><br><span class="line">   for cell in reusableCells &#123;</span><br><span class="line">       let cell = cell as! WaterflowViewCell</span><br><span class="line">       if cell.identifier == identifier &#123;</span><br><span class="line">           reusableCell = cell</span><br><span class="line">           break</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   if reusableCell != nil &#123;</span><br><span class="line">       reusableCells.remove(reusableCell!)</span><br><span class="line">   &#125;</span><br><span class="line">   return reusableCell</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>7. waterflowView 中 事件 方法的类扩展</strong><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;通过<code>touch</code>方法实现事件的点击，在开始点击和结束点击时，分别添加遮罩和移除遮罩，当用户手指移动时，判断当前手指是否还在对应的 cell 中，如果不在则移除遮罩<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <em>但是这里实现还是有一点点小问题，但倒不影响使用，如果有好的思路到时再补充好了…</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">// MARK: - action</span><br><span class="line">extension WaterflowView &#123;</span><br><span class="line">    </span><br><span class="line">    override func touchesBegan(_ touches: Set&lt;UITouch&gt;, with event: UIEvent?) &#123;</span><br><span class="line">        guard wfDelegate != nil else &#123;</span><br><span class="line">            return</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        let cellTupe = getCurrentTouchView(touches: touches)</span><br><span class="line">        let cell = cellTupe.1</span><br><span class="line">        </span><br><span class="line">        guard let _cell = cell else &#123;</span><br><span class="line">            return</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        cTupe = cellTupe</span><br><span class="line">        </span><br><span class="line">        // 添加遮罩</span><br><span class="line">        matteView.frame = _cell.bounds</span><br><span class="line">        _cell.addSubview(matteView)</span><br><span class="line">        _cell.bringSubview(toFront: matteView)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    override func touchesEnded(_ touches: Set&lt;UITouch&gt;, with event: UIEvent?) &#123;</span><br><span class="line">        guard let wfDelegate = wfDelegate else &#123;</span><br><span class="line">            return</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        let cellTupe = getCurrentTouchView(touches: touches)</span><br><span class="line">        let selectIdx = cellTupe.0</span><br><span class="line">        </span><br><span class="line">        if selectIdx == cTupe.0 &#123;</span><br><span class="line">            </span><br><span class="line">            let cell = cellTupe.1</span><br><span class="line">            </span><br><span class="line">            // 移除遮罩</span><br><span class="line">            let matteV = cell?.subviews.last</span><br><span class="line">            matteV?.removeFromSuperview()</span><br><span class="line">            </span><br><span class="line">            if (selectIdx != nil) &#123;</span><br><span class="line">                wfDelegate.waterflow?(waterflow: self, didSelectAtIndex: selectIdx!.intValue)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    override func touchesMoved(_ touches: Set&lt;UITouch&gt;, with event: UIEvent?) &#123;</span><br><span class="line">        let cellTupe = getCurrentTouchView(touches: touches)</span><br><span class="line">        // 如果不在点击层 移除遮罩</span><br><span class="line">        if cTupe.0 != cellTupe.0 &#123;</span><br><span class="line">            let matteV = cTupe.1!.subviews.last</span><br><span class="line">            matteV?.removeFromSuperview()</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // 如果在点击层且没有遮罩，添加遮罩</span><br><span class="line">            if cellTupe.1!.subviews.last != matteView &#123;</span><br><span class="line">                matteView.frame = cellTupe.1!.bounds</span><br><span class="line">                cellTupe.1!.addSubview(matteView)</span><br><span class="line">                cellTupe.1!.bringSubview(toFront: matteView)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    private func getCurrentTouchView(touches: Set&lt;UITouch&gt;) -&gt; (NSNumber?, WaterflowViewCell?) &#123;</span><br><span class="line">        let touch: UITouch = (touches as NSSet).anyObject() as! UITouch</span><br><span class="line">        let point = touch.location(in: self)</span><br><span class="line">        </span><br><span class="line">        var selectIdx: NSNumber?</span><br><span class="line">        var selectCell: WaterflowViewCell?</span><br><span class="line">        </span><br><span class="line">        // 获取点击层对应的 cell</span><br><span class="line">        for (key, value) in displayingCells &#123;</span><br><span class="line">            let cell = value as! WaterflowViewCell</span><br><span class="line">            if cell.frame.contains(point) &#123;</span><br><span class="line">                selectIdx = (key as! NSNumber)</span><br><span class="line">                selectCell = cell</span><br><span class="line">                break</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return (selectIdx, selectCell)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <em>文章如若有错误或者误导的地方，还请原谅，如果方便，欢迎留言！</em><br><em><p align="right">最后附上 code demo: <a href="https://github.com/Ama4Q/waterflow.git" target="_blank" rel="noopener">Github</a></p></em><br><em><p align="right">by Ama</p></em></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/09/VFL/" rel="prev" title="VFL布局问题的解决方法（包括垂直居中和水平居中）">
+                VFL布局问题的解决方法（包括垂直居中和水平居中） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/././././images/avatar.png"
+                alt="zQiu" />
+            
+              <p class="site-author-name" itemprop="name">zQiu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/AAAma" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zQiu</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

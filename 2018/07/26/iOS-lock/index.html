@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="keywords" content="lock">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程安全相关的锁">
+<meta property="og:url" content="http://yoursite.com/2018/07/26/iOS-lock/index.html">
+<meta property="og:site_name" content="Cupid">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://og47r7sgm.bkt.clouddn.com/lock/lock_benchmark.png">
+<meta property="og:updated_time" content="2018-08-08T12:59:33.236Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="线程安全相关的锁">
+<meta name="twitter:image" content="http://og47r7sgm.bkt.clouddn.com/lock/lock_benchmark.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/26/iOS-lock/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>线程安全相关的锁 | Cupid</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Cupid</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">--AAAma</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/26/iOS-lock/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zQiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/././././images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cupid">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">线程安全相关的锁
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-26 15:13:09" itemprop="dateCreated datePublished" datetime="2018-07-26T15:13:09+08:00">2018-07-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-08-08 20:59:33" itemprop="dateModified" datetime="2018-08-08T20:59:33+08:00">2018-08-08</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/ObjC/" itemprop="url" rel="index"><span itemprop="name">ObjC</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://og47r7sgm.bkt.clouddn.com/lock/lock_benchmark.png" alt=""></p>
+<a id="more"></a>
+<h3 id="NSLock"><a href="#NSLock" class="headerlink" title="NSLock"></a>NSLock</h3><p>NSLock实现了最基本的互斥锁，遵循了 NSLocking 协议，通过 lock 和 unlock 来进行锁定和解锁。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)doSomething &#123;</span><br><span class="line">   [<span class="keyword">self</span>.lock lock];</span><br><span class="line">   <span class="comment">//do your stuff</span></span><br><span class="line">   [<span class="keyword">self</span>.lock unlock];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="NSRecursiveLock"><a href="#NSRecursiveLock" class="headerlink" title="NSRecursiveLock"></a>NSRecursiveLock</h3><p>由于是互斥锁，当一个线程进行访问的时候，该线程获得锁，其他线程进行访问的时候，将被操作系统挂起，直到该线程释放锁，其他线程才能对其进行访问，从而却确保了线程安全。但是如果连续锁定两次，则会造成死锁问题。那如果想在递归中使用锁，那要怎么办呢，这就用到了 NSRecursiveLock 递归锁。</p>
+<p>顾名思义，可以被一个线程多次获得，而不会引起死锁。它记录了成功获得锁的次数，每一次成功的获得锁，必须有一个配套的释放锁和其对应，这样才不会引起死锁。只有当所有的锁被释放之后，其他线程才可以获得锁</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSRecursiveLock</span> *theLock = [[<span class="built_in">NSRecursiveLock</span> alloc] init];</span><br><span class="line">- <span class="keyword">void</span> MyRecursiveFunction(<span class="keyword">int</span> value)</span><br><span class="line">&#123;</span><br><span class="line">    [theLock lock];</span><br><span class="line">    <span class="keyword">if</span> (value != <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        --value;</span><br><span class="line">        MyRecursiveFunction(value);</span><br><span class="line">    &#125;</span><br><span class="line">    [theLock unlock];</span><br><span class="line">&#125;</span><br><span class="line">MyRecursiveFunction(<span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="NSCondition"><a href="#NSCondition" class="headerlink" title="NSCondition"></a>NSCondition</h3><p>NSCondition 是一种特殊类型的锁，通过它可以实现不同线程的调度。一个线程被某一个条件所阻塞，直到另一个线程满足该条件从而发送信号给该线程使得该线程可以正确的执行。比如说，你可以开启一个线程下载图片，一个线程处理图片。这样的话，需要处理图片的线程由于没有图片会阻塞，当下载线程下载完成之后，则满足了需要处理图片的线程的需求，这样可以给定一个信号，让处理图片的线程恢复运行。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)download &#123;</span><br><span class="line">    [<span class="keyword">self</span>.condition lock];</span><br><span class="line">    <span class="comment">//下载文件代码</span></span><br><span class="line">    <span class="keyword">if</span> (donloadFinish) &#123; </span><br><span class="line">        <span class="comment">// 下载结束后，给另一个线程发送信号，唤起另一个处理程序</span></span><br><span class="line">        [<span class="keyword">self</span>.condition signal];</span><br><span class="line">        [<span class="keyword">self</span>.condition unlock];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">- (<span class="keyword">void</span>)doStuffWithDownloadPicture &#123;</span><br><span class="line">    [<span class="keyword">self</span>.condition lock];</span><br><span class="line">    <span class="keyword">while</span> (!donloadFinish) &#123;</span><br><span class="line">        [<span class="keyword">self</span>.condition wait];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//处理图片代码</span></span><br><span class="line">    [<span class="keyword">self</span>.condition unlock];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="NSConditionLock"><a href="#NSConditionLock" class="headerlink" title="NSConditionLock"></a>NSConditionLock</h3><p>NSConditionLock 对象所定义的互斥锁可以在使得在某个条件下进行锁定和解锁。它和 NSCondition 很像，但实现方式是不同的。</p>
+<p>当两个线程需要特定顺序执行的时候，例如生产者消费者模型，则可以使用 NSConditionLock 。当生产者执行执行的时候，消费者可以通过特定的条件获得锁，当生产者完成执行的时候，它将解锁该锁，然后把锁的条件设置成唤醒消费者线程的条件。锁定和解锁的调用可以随意组合，lock 和 unlockWithCondition: 配合使用 lockWhenCondition: 和 unlock 配合使用。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//主线程中</span></span><br><span class="line">    <span class="built_in">NSConditionLock</span> *lock = [[<span class="built_in">NSConditionLock</span> alloc] initWithCondition:<span class="number">0</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//线程1</span></span><br><span class="line">    <span class="built_in">dispatch_async</span>(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>), ^&#123;</span><br><span class="line">        [lock lockWhenCondition:<span class="number">1</span>];</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"线程1"</span>);</span><br><span class="line">        sleep(<span class="number">2</span>);</span><br><span class="line">        [lock unlock];</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//线程2</span></span><br><span class="line">    <span class="built_in">dispatch_async</span>(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>), ^&#123;</span><br><span class="line">        sleep(<span class="number">1</span>);<span class="comment">//以保证让线程2的代码后执行</span></span><br><span class="line">        <span class="keyword">if</span> ([lock tryLockWhenCondition:<span class="number">0</span>]) &#123;</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"线程2"</span>);</span><br><span class="line">            [lock unlockWithCondition:<span class="number">2</span>];</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"线程2解锁成功"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"线程2尝试加锁失败"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//线程3</span></span><br><span class="line">    <span class="built_in">dispatch_async</span>(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>), ^&#123;</span><br><span class="line">        sleep(<span class="number">2</span>);<span class="comment">//以保证让线程2的代码后执行</span></span><br><span class="line">        <span class="keyword">if</span> ([lock tryLockWhenCondition:<span class="number">2</span>]) &#123;</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"线程3"</span>);</span><br><span class="line">            [lock unlock];</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"线程3解锁成功"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"线程3尝试加锁失败"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//线程4</span></span><br><span class="line">    <span class="built_in">dispatch_async</span>(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>), ^&#123;</span><br><span class="line">        sleep(<span class="number">3</span>);<span class="comment">//以保证让线程2的代码后执行</span></span><br><span class="line">        <span class="keyword">if</span> ([lock tryLockWhenCondition:<span class="number">2</span>]) &#123;</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"线程4"</span>);</span><br><span class="line">            [lock unlockWithCondition:<span class="number">1</span>];    </span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"线程4解锁成功"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"线程4尝试加锁失败"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line"><span class="number">2016</span><span class="number">-08</span><span class="number">-19</span> <span class="number">13</span>:<span class="number">51</span>:<span class="number">15.353</span> ThreadLockControlDemo[<span class="number">1614</span>:<span class="number">110697</span>] 线程<span class="number">2</span></span><br><span class="line"><span class="number">2016</span><span class="number">-08</span><span class="number">-19</span> <span class="number">13</span>:<span class="number">51</span>:<span class="number">15.354</span> ThreadLockControlDemo[<span class="number">1614</span>:<span class="number">110697</span>] 线程<span class="number">2</span>解锁成功</span><br><span class="line"><span class="number">2016</span><span class="number">-08</span><span class="number">-19</span> <span class="number">13</span>:<span class="number">51</span>:<span class="number">16.353</span> ThreadLockControlDemo[<span class="number">1614</span>:<span class="number">110689</span>] 线程<span class="number">3</span></span><br><span class="line"><span class="number">2016</span><span class="number">-08</span><span class="number">-19</span> <span class="number">13</span>:<span class="number">51</span>:<span class="number">16.353</span> ThreadLockControlDemo[<span class="number">1614</span>:<span class="number">110689</span>] 线程<span class="number">3</span>解锁成功</span><br><span class="line"><span class="number">2016</span><span class="number">-08</span><span class="number">-19</span> <span class="number">13</span>:<span class="number">51</span>:<span class="number">17.354</span> ThreadLockControlDemo[<span class="number">1614</span>:<span class="number">110884</span>] 线程<span class="number">4</span></span><br><span class="line"><span class="number">2016</span><span class="number">-08</span><span class="number">-19</span> <span class="number">13</span>:<span class="number">51</span>:<span class="number">17.355</span> ThreadLockControlDemo[<span class="number">1614</span>:<span class="number">110884</span>] 线程<span class="number">4</span>解锁成功</span><br><span class="line"><span class="number">2016</span><span class="number">-08</span><span class="number">-19</span> <span class="number">13</span>:<span class="number">51</span>:<span class="number">17.355</span> ThreadLockControlDemo[<span class="number">1614</span>:<span class="number">110884</span>] 线程<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h3 id="pthread-mutex"><a href="#pthread-mutex" class="headerlink" title="pthread_mutex"></a>pthread_mutex</h3><p>POSIX 互斥锁是一种超级易用的互斥锁，使用的时候，只需要初始化一个 pthread_mutex_t 用 pthread_mutex_lock 来锁定 pthread_mutex_unlock 来解锁，当使用完成后，记得调用 pthread_mutex_destroy 来销毁锁。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pthread_mutex_init(&amp;lock,<span class="literal">NULL</span>);</span><br><span class="line">pthread_mutex_lock(&amp;lock);</span><br><span class="line"><span class="comment">//do your stuff</span></span><br><span class="line">pthread_mutex_unlock(&amp;lock);</span><br><span class="line">pthread_mutex_destroy(&amp;lock);</span><br></pre></td></tr></table></figure>
+<h3 id="pthread-rwlock"><a href="#pthread-rwlock" class="headerlink" title="pthread_rwlock"></a>pthread_rwlock</h3><p>读写锁，在对文件进行操作的时候，写操作是排他的，一旦有多个线程对同一个文件进行写操作，后果不可估量，但读是可以的，多个线程读取时没有问题的。</p>
+<ul>
+<li>当读写锁被一个线程以读模式占用的时候，写操作的其他线程会被阻塞，读操作的其他线程还可以继续进行。</li>
+<li>当读写锁被一个线程以写模式占用的时候，写操作的其他线程会被阻塞，读操作的其他线程也被阻塞。</li>
+</ul>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化</span></span><br><span class="line">pthread_rwlock_t rwlock = PTHREAD_RWLOCK_INITIALIZER</span><br><span class="line"><span class="comment">// 读模式</span></span><br><span class="line">pthread_rwlock_wrlock(&amp;lock);</span><br><span class="line"><span class="comment">// 写模式</span></span><br><span class="line">pthread_rwlock_rdlock(&amp;lock);</span><br><span class="line"><span class="comment">// 读模式或者写模式的解锁</span></span><br><span class="line">pthread_rwlock_unlock(&amp;lock);</span><br></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</span><br><span class="line">    [<span class="keyword">self</span> readBookWithTag:<span class="number">1</span>];</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</span><br><span class="line">    [<span class="keyword">self</span> readBookWithTag:<span class="number">2</span>];</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</span><br><span class="line">    [<span class="keyword">self</span> writeBook:<span class="number">3</span>];</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</span><br><span class="line">    [<span class="keyword">self</span> writeBook:<span class="number">4</span>];</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</span><br><span class="line">    [<span class="keyword">self</span> readBookWithTag:<span class="number">5</span>];</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)readBookWithTag:(<span class="built_in">NSInteger</span> )tag &#123;</span><br><span class="line">    pthread_rwlock_rdlock(&amp;rwLock);</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"start read ---- %ld"</span>,tag);</span><br><span class="line">    <span class="keyword">self</span>.path = [[<span class="built_in">NSBundle</span> mainBundle] pathForResource:<span class="string">@"1"</span> ofType:<span class="string">@".doc"</span>];</span><br><span class="line">    <span class="keyword">self</span>.contentString = [<span class="built_in">NSString</span> stringWithContentsOfFile:<span class="keyword">self</span>.path encoding:<span class="built_in">NSUTF8StringEncoding</span> error:<span class="literal">nil</span>];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"end   read ---- %ld"</span>,tag);</span><br><span class="line">    pthread_rwlock_unlock(&amp;rwLock);</span><br><span class="line">&#125;</span><br><span class="line">- (<span class="keyword">void</span>)writeBook:(<span class="built_in">NSInteger</span>)tag &#123;</span><br><span class="line">    pthread_rwlock_wrlock(&amp;rwLock);</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"start wirte ---- %ld"</span>,tag);</span><br><span class="line">    [<span class="keyword">self</span>.contentString writeToFile:<span class="keyword">self</span>.path atomically:<span class="literal">YES</span> encoding:<span class="built_in">NSUTF8StringEncoding</span> error:<span class="literal">nil</span>];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"end   wirte ---- %ld"</span>,tag);</span><br><span class="line">    pthread_rwlock_unlock(&amp;rwLock);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="POSIX-Conditions"><a href="#POSIX-Conditions" class="headerlink" title="POSIX Conditions"></a>POSIX Conditions</h3><p>POSIX 条件锁需要互斥锁和条件两项来实现，虽然看起来没什么关系，但在运行时中，互斥锁将会与条件结合起来。线程将被一个互斥和条件结合的信号来唤醒。</p>
+<p>首先初始化条件和互斥锁，当 ready_to_go 为 NO 的时候，进入循环，然后线程将会被挂起，直到另一个线程将 ready_to_go 设置为 YES 的时候，并且发送信号的时候，该线程会才被唤醒。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">pthread_mutex_t mutex;</span><br><span class="line">pthread_cond_t condition;</span><br><span class="line">Boolean     ready_to_go = <span class="literal">true</span>;</span><br><span class="line">- <span class="keyword">void</span> MyCondInitFunction()</span><br><span class="line">&#123;</span><br><span class="line">    pthread_mutex_init(&amp;mutex);</span><br><span class="line">    pthread_cond_init(&amp;condition, <span class="literal">NULL</span>);</span><br><span class="line">&#125;</span><br><span class="line">- <span class="keyword">void</span> MyWaitOnConditionFunction()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Lock the mutex.</span></span><br><span class="line">    pthread_mutex_lock(&amp;mutex);</span><br><span class="line">    <span class="comment">// If the predicate is already set, then the while loop is bypassed;</span></span><br><span class="line">    <span class="comment">// otherwise, the thread sleeps until the predicate is set.</span></span><br><span class="line">    <span class="keyword">while</span>(ready_to_go == <span class="literal">false</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        pthread_cond_wait(&amp;condition, &amp;mutex);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Do work. (The mutex should stay locked.)</span></span><br><span class="line">    <span class="comment">// Reset the predicate and release the mutex.</span></span><br><span class="line">    ready_to_go = <span class="literal">false</span>;</span><br><span class="line">    pthread_mutex_unlock(&amp;mutex);</span><br><span class="line">&#125;</span><br><span class="line">- <span class="keyword">void</span> SignalThreadUsingCondition()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// At this point, there should be work for the other thread to do.</span></span><br><span class="line">    pthread_mutex_lock(&amp;mutex);</span><br><span class="line">    ready_to_go = <span class="literal">true</span>;</span><br><span class="line">    <span class="comment">// Signal the other thread to begin work.</span></span><br><span class="line">    pthread_cond_signal(&amp;condition);</span><br><span class="line">    pthread_mutex_unlock(&amp;mutex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="OSSpinLock"><a href="#OSSpinLock" class="headerlink" title="OSSpinLock"></a>OSSpinLock</h3><p>自旋锁，和互斥锁类似，都是为了保证线程安全的锁。但二者的区别是不一样的，对于互斥锁，当一个线程获得这个锁之后，其他想要获得此锁的线程将会被阻塞，直到该锁被释放。但自选锁不一样，当一个线程获得锁之后，其他线程将会一直循环在哪里查看是否该锁被释放。所以，此锁比较适用于锁的持有者保存时间较短的情况下。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化</span></span><br><span class="line">spinLock = OS_SPINLOCK_INIT;</span><br><span class="line"><span class="comment">// 加锁</span></span><br><span class="line">OSSpinLockLock(&amp;spinLock);</span><br><span class="line"><span class="comment">// 解锁</span></span><br><span class="line">OSSpinLockUnlock(&amp;spinLock);</span><br></pre></td></tr></table></figure>
+<p>OSSpinLock的方法已过期，<a href="https://blog.ibireme.com/2016/01/16/spinlock_is_unsafe_in_ios/" target="_blank" rel="noopener">不再安全的 OSSpinLock</a>。</p>
+<h3 id="os-unfair-lock"><a href="#os-unfair-lock" class="headerlink" title="os_unfair_lock"></a>os_unfair_lock</h3><p>在 <strong>iOS 10/macOS 10.12</strong> 发布，代替OSSpinLock</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">os_unfair_lock_t unfairLock;</span><br><span class="line">unfairLock = &amp;(OS_UNFAIR_LOCK_INIT);</span><br><span class="line">os_unfair_lock_lock(unfairLock);</span><br><span class="line">os_unfair_lock_unlock(unfairLock);</span><br></pre></td></tr></table></figure>
+<h3 id="dispatch-semaphore"><a href="#dispatch-semaphore" class="headerlink" title="dispatch_semaphore"></a>dispatch_semaphore</h3><p>信号量机制实现锁，等待信号，和发送信号，正如前边所说的看门人一样，当有多个线程进行访问的时候，只要有一个获得了信号，其他线程的就必须等待该信号释放。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">dispatch_semaphore_t semaphore = dispatch_semaphore_create(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">self</span>.array = [<span class="built_in">NSMutableArray</span> array];</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">NSInteger</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">        <span class="built_in">dispatch_async</span>(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>), ^&#123;</span><br><span class="line">            dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW);</span><br><span class="line">            [<span class="keyword">self</span>.array addObject:@(<span class="keyword">self</span>.count)];</span><br><span class="line">            <span class="keyword">self</span>.count++;</span><br><span class="line">            dispatch_semaphore_signal(semaphore);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="synchronized"><a href="#synchronized" class="headerlink" title="@synchronized"></a>@synchronized</h3><p>一个便捷的创建互斥锁的方式，它做了其他互斥锁所做的所有的事情。如果你在不同的线程中传过去的是一样的标识符，先获得锁的会锁定代码块，另一个线程将被阻塞，如果传递的是不同的标识符，则不会造成线程阻塞。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)myMethod:(<span class="keyword">id</span>)anObj</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">@synchronized</span>(anObj)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// Everything between the braces is protected by the @synchronized directive.</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h3><ul>
+<li><a href="http://www.cocoachina.com/ios/20161129/18216.html" target="_blank" rel="noopener">http://www.cocoachina.com/ios/20161129/18216.html</a></li>
+<li><a href="https://blog.ibireme.com/2016/01/16/spinlock_is_unsafe_in_ios/" target="_blank" rel="noopener">https://blog.ibireme.com/2016/01/16/spinlock_is_unsafe_in_ios/</a></li>
+<li><a href="https://www.jianshu.com/p/ddbe44064ca4" target="_blank" rel="noopener">https://www.jianshu.com/p/ddbe44064ca4</a></li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/lock/" rel="tag"># lock</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/24/methodSwizzling/" rel="next" title="Method Swizzling">
+                <i class="fa fa-chevron-left"></i> Method Swizzling
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/30/reSigned/" rel="prev" title="重签名笔记">
+                重签名笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/././././images/avatar.png"
+                alt="zQiu" />
+            
+              <p class="site-author-name" itemprop="name">zQiu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/AAAma" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#NSLock"><span class="nav-number">1.</span> <span class="nav-text">NSLock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NSRecursiveLock"><span class="nav-number">2.</span> <span class="nav-text">NSRecursiveLock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NSCondition"><span class="nav-number">3.</span> <span class="nav-text">NSCondition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NSConditionLock"><span class="nav-number">4.</span> <span class="nav-text">NSConditionLock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pthread-mutex"><span class="nav-number">5.</span> <span class="nav-text">pthread_mutex</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pthread-rwlock"><span class="nav-number">6.</span> <span class="nav-text">pthread_rwlock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#POSIX-Conditions"><span class="nav-number">7.</span> <span class="nav-text">POSIX Conditions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OSSpinLock"><span class="nav-number">8.</span> <span class="nav-text">OSSpinLock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#os-unfair-lock"><span class="nav-number">9.</span> <span class="nav-text">os_unfair_lock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dispatch-semaphore"><span class="nav-number">10.</span> <span class="nav-text">dispatch_semaphore</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#synchronized"><span class="nav-number">11.</span> <span class="nav-text">@synchronized</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关链接"><span class="nav-number">12.</span> <span class="nav-text">相关链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zQiu</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="读取embedded.mobileprovision1security cms -D -i embedded.mobileprovision">
+<meta name="keywords" content="re-sign">
+<meta property="og:type" content="article">
+<meta property="og:title" content="重签名笔记">
+<meta property="og:url" content="http://yoursite.com/2018/07/30/reSigned/index.html">
+<meta property="og:site_name" content="Cupid">
+<meta property="og:description" content="读取embedded.mobileprovision1security cms -D -i embedded.mobileprovision">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-08T12:59:33.237Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="重签名笔记">
+<meta name="twitter:description" content="读取embedded.mobileprovision1security cms -D -i embedded.mobileprovision">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/30/reSigned/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>重签名笔记 | Cupid</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Cupid</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">--AAAma</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/30/reSigned/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zQiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/././././images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cupid">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">重签名笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-30 10:16:28" itemprop="dateCreated datePublished" datetime="2018-07-30T10:16:28+08:00">2018-07-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-08-08 20:59:33" itemprop="dateModified" datetime="2018-08-08T20:59:33+08:00">2018-08-08</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/逆向-安全/" itemprop="url" rel="index"><span itemprop="name">逆向&安全</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="读取embedded-mobileprovision"><a href="#读取embedded-mobileprovision" class="headerlink" title="读取embedded.mobileprovision"></a>读取embedded.mobileprovision</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">security cms -D -i embedded.mobileprovision</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h4 id="导出embedded-mobileprovision"><a href="#导出embedded-mobileprovision" class="headerlink" title="导出embedded.mobileprovision"></a>导出embedded.mobileprovision</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">security cms -D -i <span class="string">"path/embedded.mobileprovision"</span> &gt; path/entitlements.plist</span><br></pre></td></tr></table></figure>
+<h4 id="生成重签名的embedded-plist"><a href="#生成重签名的embedded-plist" class="headerlink" title="生成重签名的embedded.plist"></a>生成重签名的embedded.plist</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/libexec/PlistBuddy -x -c <span class="string">'Print:Entitlements'</span> path/entitlements.plist &gt; path/embedded.plist</span><br></pre></td></tr></table></figure>
+<h4 id="查看IPA解密状态"><a href="#查看IPA解密状态" class="headerlink" title="查看IPA解密状态"></a>查看IPA解密状态</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">otool -l Example | grep -B 2 crypt</span><br></pre></td></tr></table></figure>
+<h4 id="显示出的系统中能用来对代码进行签名认证的证书"><a href="#显示出的系统中能用来对代码进行签名认证的证书" class="headerlink" title="显示出的系统中能用来对代码进行签名认证的证书"></a>显示出的系统中能用来对代码进行签名认证的证书</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">security find-identity -v -p codesigning</span><br></pre></td></tr></table></figure>
+<h4 id="如果你拥有一个证书和它的私钥，那么用-codesign-来设置签名非常简单，我们现在尝试用下面列出的这个证书来为-Example-app-设置签名"><a href="#如果你拥有一个证书和它的私钥，那么用-codesign-来设置签名非常简单，我们现在尝试用下面列出的这个证书来为-Example-app-设置签名" class="headerlink" title="如果你拥有一个证书和它的私钥，那么用 codesign 来设置签名非常简单，我们现在尝试用下面列出的这个证书来为 Example.app 设置签名"></a>如果你拥有一个证书和它的私钥，那么用 codesign 来设置签名非常简单，我们现在尝试用下面列出的这个证书来为 Example.app 设置签名</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">codesign -s <span class="string">'iPhone Developer: Thomas Kollbach (7TPNXN7G6K)'</span> Example.app</span><br></pre></td></tr></table></figure>
+<h4 id="如果你想为某一个-app-程序包重新设置签名，那么这个工具就很有用了。为了重新设置签名，你必须带上-f-参数，有了这个参数，codesign-会用你选择的签名替换掉已经存在的那一个"><a href="#如果你想为某一个-app-程序包重新设置签名，那么这个工具就很有用了。为了重新设置签名，你必须带上-f-参数，有了这个参数，codesign-会用你选择的签名替换掉已经存在的那一个" class="headerlink" title="如果你想为某一个 app 程序包重新设置签名，那么这个工具就很有用了。为了重新设置签名，你必须带上 -f 参数，有了这个参数，codesign 会用你选择的签名替换掉已经存在的那一个"></a>如果你想为某一个 app 程序包重新设置签名，那么这个工具就很有用了。为了重新设置签名，你必须带上 -f 参数，有了这个参数，codesign 会用你选择的签名替换掉已经存在的那一个</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">codesign -f -s <span class="string">'iPhone Developer: Thomas Kollbach (7TPNXN7G6K)'</span> Example.app</span><br></pre></td></tr></table></figure>
+<h4 id="codesign-还可以为你提供有关一个可执行文件签名状态的信息，这些信息在出现不明错误时会提供巨大的帮助"><a href="#codesign-还可以为你提供有关一个可执行文件签名状态的信息，这些信息在出现不明错误时会提供巨大的帮助" class="headerlink" title="codesign 还可以为你提供有关一个可执行文件签名状态的信息，这些信息在出现不明错误时会提供巨大的帮助"></a>codesign 还可以为你提供有关一个可执行文件签名状态的信息，这些信息在出现不明错误时会提供巨大的帮助</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">codesign -vv -d Example.app</span><br></pre></td></tr></table></figure>
+<h4 id="验证签名状态"><a href="#验证签名状态" class="headerlink" title="验证签名状态"></a>验证签名状态</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">codesign --verify Example.app</span><br></pre></td></tr></table></figure>
+<h4 id="授权机制也是按照-plist-文件格式来列出的。Xcode-会将这个文件作为-–entitlements-参数的内容传给-codesign-，这个文件内部格式如下"><a href="#授权机制也是按照-plist-文件格式来列出的。Xcode-会将这个文件作为-–entitlements-参数的内容传给-codesign-，这个文件内部格式如下" class="headerlink" title="授权机制也是按照 plist 文件格式来列出的。Xcode 会将这个文件作为 –entitlements 参数的内容传给 codesign ，这个文件内部格式如下"></a>授权机制也是按照 plist 文件格式来列出的。Xcode 会将这个文件作为 –entitlements 参数的内容传给 codesign ，这个文件内部格式如下</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">"1.0"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">key</span>&gt;</span>application-identifier<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">string</span>&gt;</span>6ZTMT7BFHK.com.gdaz.AZB<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">key</span>&gt;</span>aps-environment<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">string</span>&gt;</span>production<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">key</span>&gt;</span>com.apple.developer.team-identifier<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">string</span>&gt;</span>6ZTMT7BFHK<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">key</span>&gt;</span>get-task-allow<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">false</span>/&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="授权信息会被包含在应用的签名信息中。如果你在这方面遇到了问题，可以尝试查看签名信息中具体包含了什么授权信息"><a href="#授权信息会被包含在应用的签名信息中。如果你在这方面遇到了问题，可以尝试查看签名信息中具体包含了什么授权信息" class="headerlink" title="授权信息会被包含在应用的签名信息中。如果你在这方面遇到了问题，可以尝试查看签名信息中具体包含了什么授权信息"></a>授权信息会被包含在应用的签名信息中。如果你在这方面遇到了问题，可以尝试查看签名信息中具体包含了什么授权信息</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">codesign -d --entitlements - Example.app</span><br></pre></td></tr></table></figure>
+<h4 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcrun -sdk iphoneos PackageApplication -v Example.app  -o ~/Desktop/Example.ipa</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="微信重签名"><a href="#微信重签名" class="headerlink" title="微信重签名"></a>微信重签名</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">codesign -f -s <span class="string">"iPhone Distribution: XXX Co.,Ltd. (39ASxxxx)"</span> WeChat.app/libautoGetRedEnv.dylib</span><br><span class="line"></span><br><span class="line">codesign -f -s <span class="string">"iPhone Distribution: XXX Co.,Ltd. (39ASxxxx)"</span> WeChat.app/Watch/WeChatWatchNative.app/PlugIns/WeChatWatchNativeExtension.appex</span><br><span class="line"></span><br><span class="line">codesign -f -s <span class="string">"iPhone Distribution: XXX Co.,Ltd. (39ASxxxx)"</span> WeChat.app/Watch/WeChatWatchNative.app</span><br><span class="line"></span><br><span class="line">codesign -f -s <span class="string">"iPhone Distribution: XXX Co.,Ltd. (39ASxxxx)"</span> WeChat.app/PlugIns/WeChatShareExtensionNew.appex</span><br><span class="line"></span><br><span class="line">codesign -f -s <span class="string">"iPhone Distribution: XXX Co.,Ltd. (39ASxxxx)"</span> --entitlements ents.plist WeChat.app</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/re-sign/" rel="tag"># re-sign</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/26/iOS-lock/" rel="next" title="线程安全相关的锁">
+                <i class="fa fa-chevron-left"></i> 线程安全相关的锁
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/30/class-metaClass/" rel="prev" title="Class & Meta Class">
+                Class & Meta Class <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/././././images/avatar.png"
+                alt="zQiu" />
+            
+              <p class="site-author-name" itemprop="name">zQiu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/AAAma" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#读取embedded-mobileprovision"><span class="nav-number">1.</span> <span class="nav-text">读取embedded.mobileprovision</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#导出embedded-mobileprovision"><span class="nav-number">2.</span> <span class="nav-text">导出embedded.mobileprovision</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生成重签名的embedded-plist"><span class="nav-number">3.</span> <span class="nav-text">生成重签名的embedded.plist</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看IPA解密状态"><span class="nav-number">4.</span> <span class="nav-text">查看IPA解密状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#显示出的系统中能用来对代码进行签名认证的证书"><span class="nav-number">5.</span> <span class="nav-text">显示出的系统中能用来对代码进行签名认证的证书</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如果你拥有一个证书和它的私钥，那么用-codesign-来设置签名非常简单，我们现在尝试用下面列出的这个证书来为-Example-app-设置签名"><span class="nav-number">6.</span> <span class="nav-text">如果你拥有一个证书和它的私钥，那么用 codesign 来设置签名非常简单，我们现在尝试用下面列出的这个证书来为 Example.app 设置签名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如果你想为某一个-app-程序包重新设置签名，那么这个工具就很有用了。为了重新设置签名，你必须带上-f-参数，有了这个参数，codesign-会用你选择的签名替换掉已经存在的那一个"><span class="nav-number">7.</span> <span class="nav-text">如果你想为某一个 app 程序包重新设置签名，那么这个工具就很有用了。为了重新设置签名，你必须带上 -f 参数，有了这个参数，codesign 会用你选择的签名替换掉已经存在的那一个</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#codesign-还可以为你提供有关一个可执行文件签名状态的信息，这些信息在出现不明错误时会提供巨大的帮助"><span class="nav-number">8.</span> <span class="nav-text">codesign 还可以为你提供有关一个可执行文件签名状态的信息，这些信息在出现不明错误时会提供巨大的帮助</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#验证签名状态"><span class="nav-number">9.</span> <span class="nav-text">验证签名状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#授权机制也是按照-plist-文件格式来列出的。Xcode-会将这个文件作为-–entitlements-参数的内容传给-codesign-，这个文件内部格式如下"><span class="nav-number">10.</span> <span class="nav-text">授权机制也是按照 plist 文件格式来列出的。Xcode 会将这个文件作为 –entitlements 参数的内容传给 codesign ，这个文件内部格式如下</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#授权信息会被包含在应用的签名信息中。如果你在这方面遇到了问题，可以尝试查看签名信息中具体包含了什么授权信息"><span class="nav-number">11.</span> <span class="nav-text">授权信息会被包含在应用的签名信息中。如果你在这方面遇到了问题，可以尝试查看签名信息中具体包含了什么授权信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#打包"><span class="nav-number">12.</span> <span class="nav-text">打包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#微信重签名"><span class="nav-number">13.</span> <span class="nav-text">微信重签名</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zQiu</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
